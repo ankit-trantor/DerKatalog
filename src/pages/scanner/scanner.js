@@ -7,28 +7,30 @@ import {
   View
 } from 'react-native';
 
+import PropTypes from 'prop-types'
+
 export default class BarcodeScan extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            qrcode: '',
+            qrcode: "",
             hasCameraPermission: null,
             type: Camera.Constants.Type.back
         }
     }
 
     async componentWillMount() {
-        let status = 'unknown';
+        let status = "unknown";
         try {
             const plop = await Permissions.askAsync(Permissions.CAMERA);
             status = plop.status;
         } catch (err) {}
         
-        this.setState({ hasCameraPermission: status === 'granted' });
+        this.setState({ hasCameraPermission: status === "granted" });
     }
 
-    onBarCodeRead = (e) => this.setState({qrcode: e.data}, ()=> console.log(this.state.qrcode));
+    onBarCodeRead = (e) => this.props.onScanned(e.data);
 
     render () {
         const { hasCameraPermission } = this.state;
@@ -47,8 +49,8 @@ export default class BarcodeScan extends Component {
                 <View
                   style={{
                     flex: 1,
-                    backgroundColor: 'transparent',
-                    flexDirection: 'row',
+                    backgroundColor: "transparent",
+                    flexDirection: "row",
                   }}
                 />
               </Camera>
@@ -56,4 +58,8 @@ export default class BarcodeScan extends Component {
           );
         }
     }
+}
+
+BarcodeScan.propTypes = {
+  onScanned: PropTypes.func.isRequired
 }
