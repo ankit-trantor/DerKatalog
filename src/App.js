@@ -1,9 +1,9 @@
+import { DrawerNavigator, StackNavigator } from "react-navigation";
+
+import BarcodeScan from "./pages/scanner/scanner";
+import LibraryHome from "./pages/library/library_home/library_home";
 import React from "react";
 import { Root } from "native-base";
-import { StackNavigator, DrawerNavigator } from "react-navigation";
-
-import BarcodeScan from "./scanner/scanner";
-import LibraryHome from "./pages/library/library_home/library_home";
 
 /*
 import Header from "./screens/Header/";

@@ -1,10 +1,10 @@
+import { Camera, Permissions } from 'expo';
 import React, {Component} from 'react';
-import { Camera, Permissions} from 'expo';
 import {
-  Text,
-  View,
   StyleSheet,
-  TouchableOpacity
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 export default class BarcodeScan extends Component {
@@ -49,27 +49,8 @@ export default class BarcodeScan extends Component {
                     flex: 1,
                     backgroundColor: 'transparent',
                     flexDirection: 'row',
-                  }}>
-                  <TouchableOpacity
-                    style={{
-                      flex: 0.1,
-                      alignSelf: 'flex-end',
-                      alignItems: 'center',
-                    }}
-                    onPress={() => {
-                      this.setState({
-                        type: this.state.type === Camera.Constants.Type.back
-                          ? Camera.Constants.Type.front
-                          : Camera.Constants.Type.back,
-                      });
-                    }}
-                  >
-                    <Text
-                      style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-                      {' '}Flip{' '}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                  }}
+                />
               </Camera>
             </View>
           );
