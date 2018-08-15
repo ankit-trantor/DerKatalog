@@ -1,13 +1,13 @@
-import { Camera, Permissions } from 'expo';
-import React, {Component} from 'react';
+import { Camera, Permissions } from "expo";
+import React, {Component} from "react";
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View
-} from 'react-native';
+} from "react-native";
 
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 export default class BarcodeScan extends Component {
 
@@ -26,7 +26,6 @@ export default class BarcodeScan extends Component {
             const plop = await Permissions.askAsync(Permissions.CAMERA);
             status = plop.status;
         } catch (err) {}
-        
         this.setState({ hasCameraPermission: status === "granted" });
     }
 
@@ -62,4 +61,4 @@ export default class BarcodeScan extends Component {
 
 BarcodeScan.propTypes = {
   onScanned: PropTypes.func.isRequired
-}
+};
