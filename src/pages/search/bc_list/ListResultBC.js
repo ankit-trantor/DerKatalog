@@ -31,21 +31,30 @@ export default class ListResultBC extends Component {
         super(props);
     }
     render() {
-        if (this.props.data && this.props.data.length > 0) {
+        if (!!this.props.data && this.props.data.length > 0) {
             return <List dataArray={_.sortBy(this.props.data, ["id"])}
                 renderRow={item => (<ListItem thumbnail>
                     <Left>
                         {_.get(item, "thumb") && item.thumb.trim() !== "" 
-                            ? <Thumbnail square source={{ uri:  item.thumb }} style={{width: 60, height: 60}} /> 
+                            ? <Thumbnail square source={{ uri: item.thumb }} style={{width: 60, height: 60}} /> 
                             : <Icon name="md-image" style={{fontSize: 60, width: 60}} />}
                     </Left>
                     <Body>
                         <Text>{item.title}</Text>
-                        <Text note>{item.year}</Text>
-                        <Text note>{_.chain(item.label).map(e => e).join(",").value()}</Text>
-                        <Text note>{_.chain(item.barcode).map(e => e).join(",").value()}</Text>
+                        <Text note>{item.type} - {item.year}</Text>
+                        <View style={{flexDirection: "row"}}>
+                            <Text note style={{color: "black", flex: 1}}>Format :</Text>
+                            <Text note style={{flex: 3}} numberOfLines={3}>{_.chain(item.format).uniq().map(e => e).join(", ").value()}</Text>
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                            <Text note style={{color: "black", flex: 1}}>Label :</Text>
+                            <Text note style={{flex: 3}} numberOfLines={3}>{_.chain(item.label).uniq().map(e => e).join(", ").value()}</Text>
+                        </View>
+                        <View style={{flexDirection: "row"}}>
+                            <Text note style={{color: "black", flex: 1}}>BC :</Text>
+                            <Text note style={{flex: 3}} numberOfLines={3}>{_.chain(item.barcode).uniq().map(e => e).join(", ").value()}</Text>
+                        </View>
                     </Body>
-
                     </ListItem>)
                 }
             />;
