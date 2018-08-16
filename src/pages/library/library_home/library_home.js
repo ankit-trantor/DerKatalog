@@ -6,7 +6,9 @@ import {
     Header,
     IconNB,
     Right,
-    Subtitle
+    Subtitle,
+    Content,
+    View
 } from "native-base";
 import React, { Component } from "react";
 
@@ -30,6 +32,7 @@ export default class LibraryHome extends Component {
                     </Body>
                     <Right />
                 </Header>
+                
                 <Fab
                     active={this.state.active}
                     direction="up"
@@ -46,7 +49,6 @@ export default class LibraryHome extends Component {
                         <IconNB name="md-search" />
                     </Button>
                 </Fab>
-
             </Container>
 
         );

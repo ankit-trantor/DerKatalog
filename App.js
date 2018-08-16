@@ -3,7 +3,7 @@ import * as Expo from "expo";
 import React, { Component } from "react";
 
 import RootStack from "./src/RootStack";
-import { StyleProvider } from "native-base";
+import { StyleProvider, View } from "native-base";
 import getTheme from "./src/theme/components";
 import variables from "./src/theme/variables/commonColor";
 
@@ -31,7 +31,9 @@ export default class App extends Component {
     }
     return (
       <StyleProvider style={getTheme(variables)}>
+      <View style={{flex: 1}}>
         <RootStack />
+      </View>
       </StyleProvider>
     );
   }

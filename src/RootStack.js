@@ -8,6 +8,7 @@ const RootStack = createStackNavigator({
     LibraryHome: LibraryHome,
     SearchIndex: SearchIndex
   }, {
-    initialRouteName: "LibraryHome"
+    initialRouteName: "LibraryHome",
+    headerMode: "none"
   });
 export default RootStack;
