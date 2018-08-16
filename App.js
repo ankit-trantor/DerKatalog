@@ -29,12 +29,19 @@ export default class App extends Component {
     if (!this.state.isReady) {
       return <Expo.AppLoading />;
     }
-    return (
-      <StyleProvider style={getTheme(variables)}>
+
+    /*
+    <StyleProvider style={getTheme(variables)}>
       <View style={{flex: 1}}>
         <RootStack />
       </View>
       </StyleProvider>
+      */
+     
+    return (
+      <View style={{flex: 1}}>
+        <RootStack />
+      </View>
     );
   }
 }

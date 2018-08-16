@@ -9,6 +9,14 @@ const RootStack = createStackNavigator({
     SearchIndex: SearchIndex
   }, {
     initialRouteName: "LibraryHome",
-    headerMode: "none"
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#f4511e',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    }
   });
 export default RootStack;

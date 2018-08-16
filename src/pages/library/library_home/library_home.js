@@ -16,6 +16,10 @@ import styles from "./styles";
 
 export default class LibraryHome extends Component {
 
+    static navigationOptions = {
+        title: 'Der Katalog',
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,14 +29,7 @@ export default class LibraryHome extends Component {
 
     render() {
         return (
-            <Container style={styles.container}>
-                <Header>
-                    <Body>
-                        <Subtitle>Der Katalog</Subtitle>
-                    </Body>
-                    <Right />
-                </Header>
-                
+            <Container style={styles.container}>                
                 <Fab
                     active={this.state.active}
                     direction="up"

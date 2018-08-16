@@ -25,6 +25,13 @@ import styles from "./styles";
 
 export default class SearchIndex extends Component {
 
+    // https://reactnavigation.org/docs/en/headers.html
+
+    static navigationOptions = ({navigation}) => {
+        return {
+            title: `Recherche ${navigation.getParam("launchScanner") === true ? "- Code Barre" : ""}`
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -69,12 +76,6 @@ export default class SearchIndex extends Component {
 
         return (
             <Container style={styles.container}>
-                <Header>
-                    <Body>
-                        <Subtitle>Recherche</Subtitle>
-                    </Body>
-                    <Right />
-                </Header>
                 {scanning && <BarcodeScan onScanned={this.onBarCodeReceived}/>}
                 {!scanning && receivedBC !== null && <Text>{receivedBC}</Text>}
 
