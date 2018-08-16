@@ -40,6 +40,15 @@ export default class SearchIndex extends Component {
         };
     }
 
+
+    componentDidMount() {
+        const {navigation} = this.props;
+        if (navigation.getParam('launchScanner') === true) {
+            this.scanBarCode();
+        }
+    }
+
+
     scanBarCode = () => {
         this.setState({ scanning: true, active: false, foundBC: [], receivedBC: null });
     }

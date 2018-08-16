@@ -42,10 +42,10 @@ export default class LibraryHome extends Component {
                     onPress={() => this.setState({ active: !this.state.active })}
                 >
                     <IconNB name="md-add" />
-                    <Button style={{ backgroundColor: "#34A34F" }} onPress={() => this.props.navigation.navigate("SearchIndex")}>
+                    <Button style={{ backgroundColor: "#34A34F" }} onPress={() => this.props.navigation.navigate("SearchIndex", { launchScanner : true})}>
                         <IconNB name="md-barcode" />
                     </Button>
-                    <Button style={{ backgroundColor: "#3B5998" }}>
+                    <Button style={{ backgroundColor: "#3B5998" }} disabled>
                         <IconNB name="md-search" />
                     </Button>
                 </Fab>
