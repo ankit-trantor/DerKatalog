@@ -81,7 +81,7 @@ export default class SearchIndex extends Component {
 
                 {loading && <Spinner color="blue" />}
 
-                {!searchingBC && receivedBC !== null && <ListResultBC data={foundBC} /> }
+                {!searchingBC && receivedBC !== null && <ListResultBC data={_.map(foundBC, e => { e.key = _.toString(e.id); return e;})} /> }
 
 
 
