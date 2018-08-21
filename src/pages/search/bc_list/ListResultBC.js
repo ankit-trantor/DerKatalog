@@ -20,6 +20,7 @@ import {
 } from "native-base";
 import React, { Component } from "react";
 import { ListView, View } from 'react-native';
+import {FontAwesome} from '@expo/vector-icons';
 
 import PropTypes from "prop-types";
 import _ from "lodash";
@@ -61,11 +62,11 @@ export default class ListResultBC extends Component {
                             <Text note style={{flex: 3}} numberOfLines={3}>{_.chain(item.barcode).uniq().map(e => e).join(", ").value()}</Text>
                         </View>
                     </Body>
-                    </ListItem>)    
+                    </ListItem>)            
                 }
                 renderLeftHiddenRow={data =>
-                    <Button full onPress={() => alert(data)}>
-                      <Icon active name="information-circle" />
+                    <Button full success onPress={() => {console.log(data);alert(data);}}>
+                      <FontAwesome active name="check-circle" size={25} style={{color: "white"}}  />
                     </Button>}
             />;
 
