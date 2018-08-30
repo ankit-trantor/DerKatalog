@@ -1,5 +1,5 @@
 {
-  "name": "DerKatalog",
+  "name": "der_katalog",
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
@@ -39,6 +39,7 @@
     "moment": "2.19.3",
     "native-base": "2.5.2",
     "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-navigation": "2.3.1"
