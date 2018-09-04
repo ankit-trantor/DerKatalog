@@ -79,7 +79,6 @@ class OAuth {
   }
 
   getUserInformation(username) {
-    console.log(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`);
     return this.getRequest(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`);
   }
 

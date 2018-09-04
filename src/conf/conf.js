@@ -13,7 +13,7 @@ export default {
         folders: 'users/{username}/collection/folders',
         folder: 'users/{username}/collection/folders/{id}/releases',
         identity: 'oauth/identity',
-        user: '/users/{username}'
+        user: 'users/{username}'
       },
       records_per_page: 20,
     },

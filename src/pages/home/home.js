@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, Linking } from 'react-native';
+import LibraryHome from '../library/library_home/library_home';
 
 import OAuth from '../../lib/oauth';
 import _ from "lodash";
@@ -21,7 +22,7 @@ export default class Home extends Component {
         {(oauth_token === null || oauth_token_secret === null) &&
           <Button title="S'authentifier dans Discogs" onPress={this._handlePressAsync} />
         }
-        </View>
+      </View>
     );
   }
 
@@ -53,10 +54,8 @@ export default class Home extends Component {
   verifyUserIdentity() {
     OAuth.checkIdentity()
       .then(data => {
-        console.log(data.data.username);
         return OAuth.getUserInformation(data.data.username);
       }).then(data => {
-        console.log(data);
         this.handleModifToken(false);
       }).catch(err => {
         this.setState({oauth_token : null, oauth_token_secret: null});
