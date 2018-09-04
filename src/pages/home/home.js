@@ -3,10 +3,13 @@ import { Button, StyleSheet, Text, View, Linking } from 'react-native';
 import LibraryHome from '../library/library_home/library_home';
 
 import OAuth from '../../lib/oauth';
+import { getDate } from '../../ducks/user';
 import _ from "lodash";
+import moment from 'moment';
+import { connect } from 'react-redux';
 
 
-export default class Home extends Component {
+class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,13 +18,22 @@ export default class Home extends Component {
         };
     }
 
-  render() {
-    const {oauth_token, oauth_token_secret} = this.state;
-    return (
-      <View style={styles.container}>
-        {(oauth_token === null || oauth_token_secret === null) &&
+    /**
+     * {(oauth_token === null || oauth_token_secret === null) &&
           <Button title="S'authentifier dans Discogs" onPress={this._handlePressAsync} />
         }
+     */
+
+     
+  render() {
+    const {oauth_token, oauth_token_secret} = this.state;
+    const {date} = this.props;
+    return (
+      <View style={styles.container}>
+
+          <Button title="S'authentifier dans Discogs" onPress={this._handlePressAsync} />
+
+        <Text>{date.format('DD/MM/YYYY HH:mm:ss')}</Text>
       </View>
     );
   }
@@ -66,10 +78,24 @@ export default class Home extends Component {
 
   // https://www.discogs.com/fr/forum/thread/730066
   _handlePressAsync = () => {
-    OAuth.authentication().then(() => this.verifyUserIdentity()).catch(err => console.log(err));
+    //OAuth.authentication().then(() => this.verifyUserIdentity()).catch(err => console.log(err));
+    this.props.getDate();
+
   
   };
 }
+
+const mapStateToProps = state => {
+  return {
+    date: state.date
+  };
+};
+
+const mapDispatchToProps = {
+  getDate
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 
 const styles = StyleSheet.create({

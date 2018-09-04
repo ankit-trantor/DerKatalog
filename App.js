@@ -7,6 +7,13 @@ import { StyleProvider, View } from "native-base";
 import getTheme from "./src/theme/components";
 import variables from "./src/theme/variables/commonColor";
 
+import { Provider, connect } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import reducer from './src/ducks/user';
+
+const store = createStore(reducer, applyMiddleware(thunk));
+
 export default class App extends Component {
   constructor() {
     super();
@@ -30,18 +37,12 @@ export default class App extends Component {
       return <Expo.AppLoading />;
     }
 
-    /*
-    <StyleProvider style={getTheme(variables)}>
-      <View style={{flex: 1}}>
-        <RootStack />
-      </View>
-      </StyleProvider>
-      */
-     
     return (
-      <View style={{flex: 1}}>
-        <RootStack />
-      </View>
+      <Provider store={store}>
+        <View style={{ flex: 1 }}>
+          <RootStack />
+        </View>
+      </Provider>
     );
   }
 }
