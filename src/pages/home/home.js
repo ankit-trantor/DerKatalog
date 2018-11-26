@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, Linking } from 'react-native';
 import LibraryHome from '../library/library_home/library_home';
 
-import OAuth from '../../lib/oauth';
-import { getDate } from '../../ducks/user';
+import { getToken, checkIdentity } from '../../ducks/user';
 import _ from "lodash";
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -13,35 +12,33 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          oauth_token: null,
-          oauth_token_secret: null
         };
     }
 
-    /**
-     * {(oauth_token === null || oauth_token_secret === null) &&
-          <Button title="S'authentifier dans Discogs" onPress={this._handlePressAsync} />
-        }
-     */
-
      
   render() {
-    const {oauth_token, oauth_token_secret} = this.state;
-    const {date} = this.props;
+    const {oauth_token, oauth_token_secret, error, username} = this.props;
     return (
       <View style={styles.container}>
-
-          <Button title="S'authentifier dans Discogs" onPress={this._handlePressAsync} />
-
-        <Text>{date.format('DD/MM/YYYY HH:mm:ss')}</Text>
+        {error && <Text>{error}</Text>}
+        {oauth_token && <Text>{oauth_token}</Text>}
+        {oauth_token_secret && <Text>{oauth_token_secret}</Text>}
+        {username && <Text>{username}</Text>}
       </View>
     );
   }
 
-  componentDidMount() {
-    this.handleModifToken(true);
+  componentDidUpdate() {
+    if (this.props.oauth_token && this.props.oauth_token_secret && this.props.next === 'checkIdentity') {
+      this.props.checkIdentity(this.props.oauth_token, this.props.oauth_token_secret);
+    }
   }
 
+  componentDidMount() {
+    this.props.getToken();
+  }
+
+  /*
   handleModifToken(init) {
     OAuth.promiseLectureToken.then(arr => {
       _.forEach(arr, e => {
@@ -75,24 +72,28 @@ class Home extends Component {
       });
   }
 
+  */
 
   // https://www.discogs.com/fr/forum/thread/730066
   _handlePressAsync = () => {
     //OAuth.authentication().then(() => this.verifyUserIdentity()).catch(err => console.log(err));
-    this.props.getDate();
-
-  
+    this.props.getToken();  
   };
 }
 
 const mapStateToProps = state => {
   return {
-    date: state.date
+    oauth_token: state.oauth_token,
+    oauth_token_secret: state.oauth_token_secret,
+    error : state.error,
+    username: state.username,
+    next: state.next
   };
 };
 
 const mapDispatchToProps = {
-  getDate
+  getToken,
+  checkIdentity,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

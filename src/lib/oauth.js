@@ -8,14 +8,14 @@ import { AsyncStorage } from "react-native"
 
 class OAuth {
 
+  /*
   oauth_token = null;
   oauth_token_secret = null;
   promiseLectureToken = null;
+  */
 
-  constructor() {
-    this.promiseLectureToken = AsyncStorage.multiGet(['oauth_token', 'oauth_token_secret']);
-  }
 
+  /*
   authentication() {
     let oauthSecret = null;
     let authStr = `OAuth oauth_consumer_key="${conf.discogs.oauth.key}", oauth_nonce="${moment().valueOf()}",`
@@ -73,16 +73,19 @@ class OAuth {
       });
     });
   }
+  */
 
-  checkIdentity() {
-    return this.getRequest(`${conf.discogs.api_url}${conf.discogs.endpoints.identity}`);
+  static checkIdentity(oauth_token, oauth_token_secret) {
+    return OAuth.getRequest(`${conf.discogs.api_url}${conf.discogs.endpoints.identity}`, oauth_token, oauth_token_secret);
   }
 
-  getUserInformation(username) {
-    return this.getRequest(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`);
+  
+  static getUserInformation(username, oauth_token, oauth_token_secret) {
+    return this.getRequest(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`, oauth_token, oauth_token_secret);
   }
+  
 
-
+/*
   postRequest(url) {
     authStr = `OAuth oauth_consumer_key="${conf.discogs.oauth.key}", oauth_nonce="${moment().valueOf()}",`
       + ` oauth_token="${this.oauth_token}",`
@@ -99,10 +102,13 @@ class OAuth {
     });
   }
 
-  getRequest(url) {
+  */
+
+
+  static getRequest(url, oauth_token, oauth_token_secret) {
     let authStr = `OAuth oauth_consumer_key="${conf.discogs.oauth.key}", oauth_nonce="${moment().valueOf()}",`
-      + ` oauth_token="${this.oauth_token}",`
-      + ` oauth_signature="${conf.discogs.oauth.secret}&${this.oauth_token_secret}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${moment().valueOf()}"`;
+      + ` oauth_token="${oauth_token}",`
+      + ` oauth_signature="${conf.discogs.oauth.secret}&${oauth_token_secret}", oauth_signature_method="PLAINTEXT", oauth_timestamp="${moment().valueOf()}"`;
 
     return axios({
       method: 'get',
@@ -116,7 +122,7 @@ class OAuth {
   }
 
 
-
+/*
   _storeData(key, value) {
     return new Promise((resolve, reject) => {
       AsyncStorage.setItem(key, value, (error) => {
@@ -140,11 +146,12 @@ class OAuth {
       });
     })
   }
+  */
 
   /**
    * 
    * @param {*} arr tableau de clé à supprimer
-   */
+   *
   async _deleteData(arr) {
     try {
       AsyncStorage.multiRemove(arr);
@@ -161,5 +168,6 @@ class OAuth {
   setOAuthTokenSecret(v) {
     this.oauth_token_secret = v;
   }
+  */
 }
-export default new OAuth();
+export default OAuth;
