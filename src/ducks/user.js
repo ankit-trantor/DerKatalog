@@ -1,7 +1,6 @@
 import moment from 'moment';
 import { AsyncStorage } from "react-native"
 import OAuth from '../lib/oauth';
-import { resolve } from 'url';
 
 
 export default function reducer(state = { date: moment() }, action) {
