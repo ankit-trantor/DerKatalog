@@ -22,8 +22,11 @@ import ListResultBC from "../../search/bc_list/ListResultBC";
 import _ from "lodash";
 import {default as axios} from "axios";
 import styles from "./styles";
+import { getToken } from '../../../ducks/user';
+import { connect } from 'react-redux';
+import OAuth from '..../../../lib/oauth';
 
-export default class SearchIndex extends Component {
+class SearchIndex extends Component {
 
     // https://reactnavigation.org/docs/en/headers.html
 
@@ -55,6 +58,12 @@ export default class SearchIndex extends Component {
         }
     }
 
+    componentDidUpdate() {
+        if (this.props.next === 'checkIdentity') {
+          this.props.checkIdentity(this.props.oauth_token, this.props.oauth_token_secret);
+        }
+      }
+
 
     scanBarCode = () => {
         this.setState({ scanning: true, active: false, foundBC: [], receivedBC: null });
@@ -65,8 +74,7 @@ export default class SearchIndex extends Component {
     }
 
     queryOneBarCode = () => {
-
-        axios.get(`https://api.discogs.com/database/search?per_page=100&type=release&token=${this.discogsToken}&barcode=${this.state.receivedBC}`).then( data => {
+        OAuth.getRequest(`https://api.discogs.com/database/search?per_page=100&type=release&barcode=${this.state.receivedBC}`, this.props.oauth_token, this.props.oauth_token_secret).then( data => {
             this.setState({foundBC : data.data.results, loading : false, searchingBC: false});
         }).catch( err => console.log(err));
     }
@@ -108,3 +116,17 @@ export default class SearchIndex extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      oauth_token: state.oauth_token,
+      oauth_token_secret: state.oauth_token_secret,
+      error: state.error
+    };
+  };
+  
+  const mapDispatchToProps = {
+    getToken
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(SearchIndex);

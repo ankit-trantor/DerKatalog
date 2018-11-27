@@ -11,10 +11,11 @@ import {
     View
 } from "native-base";
 import React, { Component } from "react";
-
 import styles from "./styles";
+import { getToken } from '../../../ducks/user';
+import { connect } from 'react-redux';
 
-export default class LibraryHome extends Component {
+class LibraryHome extends Component {
 
     static navigationOptions = {
         title: 'Der Katalog',
@@ -25,6 +26,10 @@ export default class LibraryHome extends Component {
         this.state = {
             active: false
         };
+    }
+
+    componentDidMount() {
+        this.props.getToken();
     }
 
     render() {
@@ -51,3 +56,19 @@ export default class LibraryHome extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+      oauth_token: state.oauth_token,
+      oauth_token_secret: state.oauth_token_secret,
+      error: state.error
+    };
+  };
+  
+  const mapDispatchToProps = {
+    getToken
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(LibraryHome);
+  
+  
