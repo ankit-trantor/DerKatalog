@@ -2,40 +2,43 @@ import React, { Component } from "react";
 import { Button, StyleSheet, Text, View, Linking } from 'react-native';
 import LibraryHome from '../library/library_home/library_home';
 
-import { getToken, checkIdentity } from '../../ducks/user';
+import { getToken, checkIdentity, oauthUser } from '../../ducks/user';
 import _ from "lodash";
 import moment from 'moment';
 import { connect } from 'react-redux';
 
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
-
-     
-  render() {
-    const {oauth_token, oauth_token_secret, error, username} = this.props;
-    return (
-      <View style={styles.container}>
-        {error && <Text>{error}</Text>}
-        {oauth_token && <Text>{oauth_token}</Text>}
-        {oauth_token_secret && <Text>{oauth_token_secret}</Text>}
-        {username && <Text>{username}</Text>}
-      </View>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
+
+
   componentDidUpdate() {
-    if (this.props.oauth_token && this.props.oauth_token_secret && this.props.next === 'checkIdentity') {
+    if (this.props.next === 'checkIdentity') {
       this.props.checkIdentity(this.props.oauth_token, this.props.oauth_token_secret);
+    } else if (this.props.next === 'goToLibrary') {
+      this.props.navigation.navigate('LibraryHome');
+    } else if (this.props.next === 'fromScratch') {      
+
     }
   }
 
   componentDidMount() {
     this.props.getToken();
+  }
+
+  render() {
+    const { oauth_token, oauth_token_secret, error, username, displayAuthButton, next } = this.props;
+    return (
+      <View style={styles.container}>
+        {next === 'fromScratch' &&
+          <Button title="S'authentifier dans Discogs" onPress={this._handlePressAuth} />
+        }
+      </View>
+    );
   }
 
   /*
@@ -75,9 +78,9 @@ class Home extends Component {
   */
 
   // https://www.discogs.com/fr/forum/thread/730066
-  _handlePressAsync = () => {
+  _handlePressAuth = () => {
     //OAuth.authentication().then(() => this.verifyUserIdentity()).catch(err => console.log(err));
-    this.props.getToken();  
+    this.props.oauthUser();
   };
 }
 
@@ -85,7 +88,7 @@ const mapStateToProps = state => {
   return {
     oauth_token: state.oauth_token,
     oauth_token_secret: state.oauth_token_secret,
-    error : state.error,
+    error: state.error,
     username: state.username,
     next: state.next
   };
@@ -94,6 +97,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   getToken,
   checkIdentity,
+  oauthUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

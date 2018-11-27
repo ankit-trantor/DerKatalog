@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { AsyncStorage } from "react-native"
 import OAuth from '../lib/oauth';
+import { resolve } from 'url';
 
 
 export default function reducer(state = { date: moment() }, action) {
@@ -8,8 +9,10 @@ export default function reducer(state = { date: moment() }, action) {
     case 'GET_TOKEN':
       return { ...state, loading: true };
     case 'GET_TOKEN_SUCCESS':
+    case 'OAUTH_SUCCESS':
       return { ...state, loading: false, next: 'checkIdentity', oauth_token: action.oauth_token, oauth_token_secret: action.oauth_token_secret };
     case 'GET_TOKEN_FAIL':
+    case 'OAUTH_FAIL':
       return { ...state, loading: false, error: 'No token', next : 'fromScratch' };
     case 'CHECK_IDENTITY':
       return { ...state, loading: true };
@@ -17,7 +20,6 @@ export default function reducer(state = { date: moment() }, action) {
       return { ...state, loading: true, username : action.username, next: 'goToLibrary' };
     case 'CHECK_IDENTITY_FAIL':
       return { ...state, loading: true, error: 'Cannot check identity', next: 'fromScratch' };
-
     default:
       return state;
   }
@@ -28,6 +30,7 @@ export function getToken() {
     AsyncStorage.multiGet(['oauth_token', 'oauth_token_secret']).then(arr => {
       let oauth_token_secret = null;
       let oauth_token = null;
+
       _.forEach(arr, e => {
         if (e[0] === 'oauth_token_secret') {
           oauth_token_secret = e[1];
@@ -59,4 +62,18 @@ export function checkIdentity(oauth_token, oauth_token_secret) {
     });
   };
 
+}
+
+export function oauthUser() {
+  return (dispatch) => {
+    OAuth.authentication().then(data => {
+      AsyncStorage.multiSet([['oauth_token', data.oauth_token], ['oauth_token_secret', data.oauth_token_secret]]);
+      return {oauth_token: data.oauth_token, oauth_token_secret: data.oauth_token_secret};
+    }).then((data) => {
+      console.log(data);
+      dispatch({ type: 'OAUTH_SUCCESS', ...data});
+    }).catch(err => {
+      dispatch({ type: 'OAUTH_FAIL' });
+    });
+  }
 }

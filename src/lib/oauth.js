@@ -15,8 +15,8 @@ class OAuth {
   */
 
 
-  /*
-  authentication() {
+  
+  static authentication() {
     let oauthSecret = null;
     let authStr = `OAuth oauth_consumer_key="${conf.discogs.oauth.key}", oauth_nonce="${moment().valueOf()}",`
       + ` oauth_signature="${conf.discogs.oauth.secret}&", oauth_signature_method="PLAINTEXT", oauth_timestamp="${moment().valueOf()}",`
@@ -59,21 +59,14 @@ class OAuth {
 
       }).then(response => {
         const { oauth_token, oauth_token_secret } = queryString.parse(response.data);
-        this.oauth_token = oauth_token;
-        this.oauth_token_secret = oauth_token_secret;
-        return Promise.all([this._storeData("oauth_token", oauth_token), this._storeData("oauth_token_secret", oauth_token_secret)]);
-      }).then(arr => {
-        this.promiseLectureToken = AsyncStorage.multiGet(['oauth_token', 'oauth_token_secret']);
-        return this.checkIdentity();
-      }).then(d => {
-        resolve();
+        resolve({oauth_token, oauth_token_secret});
       }).catch(err => {
         console.log(err);
         reject(err);
       });
     });
   }
-  */
+  
 
   static checkIdentity(oauth_token, oauth_token_secret) {
     return OAuth.getRequest(`${conf.discogs.api_url}${conf.discogs.endpoints.identity}`, oauth_token, oauth_token_secret);
@@ -81,7 +74,7 @@ class OAuth {
 
   
   static getUserInformation(username, oauth_token, oauth_token_secret) {
-    return this.getRequest(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`, oauth_token, oauth_token_secret);
+    return OAuth.getRequest(`${conf.discogs.api_url}${_.replace(conf.discogs.endpoints.user, '{username}', username)}`, oauth_token, oauth_token_secret);
   }
   
 
