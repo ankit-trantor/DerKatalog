@@ -1,4 +1,4 @@
-import * as Expo from "expo";
+import {Font, AppLoading} from "expo";
 
 import React, { Component } from "react";
 
@@ -25,7 +25,7 @@ export default class App extends Component {
     this.loadFonts();
   }
   async loadFonts() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
       Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
@@ -34,7 +34,7 @@ export default class App extends Component {
   }
   render() {
     if (!this.state.isReady) {
-      return <Expo.AppLoading />;
+      return <AppLoading />;
     }
 
     return (

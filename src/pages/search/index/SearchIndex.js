@@ -24,7 +24,7 @@ import {default as axios} from "axios";
 import styles from "./styles";
 import { getToken } from '../../../ducks/user';
 import { connect } from 'react-redux';
-import OAuth from '..../../../lib/oauth';
+import OAuth from '../../../lib/oauth';
 
 class SearchIndex extends Component {
 
