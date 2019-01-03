@@ -6,7 +6,7 @@ export default {
         request_token_url: 'https://api.discogs.com/oauth/request_token',
         authorize_url: 'https://discogs.com/oauth/authorize?oauth_token=',
         access_token_url: 'https://api.discogs.com/oauth/access_token',
-        callback_url: 'exp://4q-wvv.garth.derkatalog.exp.direct:80',
+        callback_url: 'exp://xv-e6n.garth.derkatalog.exp.direct:80',
       },
       api_url: 'https://api.discogs.com/',
       endpoints: {
