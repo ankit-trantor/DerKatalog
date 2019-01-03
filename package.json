@@ -14,9 +14,7 @@
     "eslint-plugin-react-native": "3.5.0",
     "flow-bin": "0.87.0",
     "flow-typed": "2.5.1",
-    "husky": "1.2.0",
-    "prettier": "1.15.2",
-    "react-test-renderer": "16.6.3"
+    "prettier": "1.15.2"
   },
   "scripts": {
     "start": "expo start",

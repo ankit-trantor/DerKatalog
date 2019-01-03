@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { AsyncStorage } from "react-native"
 import OAuth from '../lib/oauth';
+import _ from "lodash";
 
 
 export default function reducer(state = { date: moment() }, action) {
@@ -25,8 +26,10 @@ export default function reducer(state = { date: moment() }, action) {
 }
 
 export function getToken() {
-  return (dispatch) => {
-    AsyncStorage.multiGet(['oauth_token', 'oauth_token_secret']).then(arr => {
+  
+  return async (dispatch) => {
+    try {
+      let arr = await AsyncStorage.multiGet(['oauth_token', 'oauth_token_secret']);
       let oauth_token_secret = null;
       let oauth_token = null;
 
@@ -44,21 +47,25 @@ export function getToken() {
         dispatch({ type: 'GET_TOKEN_FAIL' });
       }
 
-    }).catch(err => {
+    } catch (err) {
       dispatch({ type: 'GET_TOKEN_FAIL' });
-    });
+    }
+     
   };
 }
 
 export function checkIdentity(oauth_token, oauth_token_secret) {
-  return (dispatch) => {
-    OAuth.checkIdentity(oauth_token, oauth_token_secret).then(data => {
-      return OAuth.getUserInformation(data.data.username, oauth_token, oauth_token_secret);
-    }).then(data => {
+  return async (dispatch) => {
+    try {
+      let data = await OAuth.checkIdentity(oauth_token, oauth_token_secret);
+      data = await OAuth.getUserInformation(data.data.username, oauth_token, oauth_token_secret);
       dispatch({ type: 'CHECK_IDENTITY_SUCCESS', username: data.data.username });
-    }).catch(err => {      
+    } catch (err) {
+      console.log(err);
       dispatch({ type: 'CHECK_IDENTITY_FAIL' });
-    });
+    }
+      
+    
   };
 
 }
@@ -69,7 +76,6 @@ export function oauthUser() {
       AsyncStorage.multiSet([['oauth_token', data.oauth_token], ['oauth_token_secret', data.oauth_token_secret]]);
       return {oauth_token: data.oauth_token, oauth_token_secret: data.oauth_token_secret};
     }).then((data) => {
-      console.log(data);
       dispatch({ type: 'OAUTH_SUCCESS', ...data});
     }).catch(err => {
       dispatch({ type: 'OAUTH_FAIL' });

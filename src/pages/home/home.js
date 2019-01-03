@@ -41,7 +41,6 @@ class Home extends Component {
 
   // https://www.discogs.com/fr/forum/thread/730066
   _handlePressAuth = () => {
-    //OAuth.authentication().then(() => this.verifyUserIdentity()).catch(err => console.log(err));
     this.props.oauthUser();
   };
 }
