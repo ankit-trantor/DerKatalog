@@ -20,7 +20,6 @@ import React, { Component } from "react";
 import BarcodeScan from "../../scanner/scanner";
 import ListResultBC from "../../search/bc_list/ListResultBC";
 import _ from "lodash";
-import {default as axios} from "axios";
 import styles from "./styles";
 import { getToken } from '../../../ducks/user';
 import { connect } from 'react-redux';
@@ -38,8 +37,6 @@ class SearchIndex extends Component {
 
     constructor(props) {
         super(props);
-
-        this.discogsToken = "bDqfoQaQSUPIVzwXqWJwnSmaOIHyyDUeWwwEanJF";
         this.state = {
             active: false,
             scanning: false,

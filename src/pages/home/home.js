@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, View, Linking } from 'react-native';
 import { getToken, checkIdentity, oauthUser } from '../../ducks/user';
 import _ from "lodash";
 import { connect } from 'react-redux';
-
+import DBUtils from '../../lib/dbUtils';
 
 class Home extends Component {
   constructor(props) {
@@ -24,7 +24,10 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.getToken();
+    
+    DBUtils.upgrade().then(rs => this.props.getToken()).catch(err => {
+      console.log(err);
+    });
   }
 
   render() {
