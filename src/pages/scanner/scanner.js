@@ -43,7 +43,7 @@ export default class BarcodeScan extends Component {
               <Camera 
                 style={{ flex: 1 }}
                 type={this.state.type}
-                onBarCodeRead={this.onBarCodeRead}
+                onBarCodeScanned={this.onBarCodeRead}
               >
                 <View
                   style={{

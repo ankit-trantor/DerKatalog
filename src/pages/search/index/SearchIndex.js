@@ -47,7 +47,6 @@ class SearchIndex extends Component {
         };
     }
 
-
     componentDidMount() {
         const {navigation} = this.props;
         if (navigation.getParam('launchScanner') === true) {
@@ -82,14 +81,10 @@ class SearchIndex extends Component {
         return (
             <Container style={styles.container}>
                 {scanning && <BarcodeScan onScanned={this.onBarCodeReceived}/>}
-                {!scanning && receivedBC !== null && <Text>{receivedBC}</Text>}
-
+                
                 {loading && <Spinner color="blue" />}
 
                 {!searchingBC && receivedBC !== null && <ListResultBC data={_.map(foundBC, e => { e.key = _.toString(e.id); return e;})} /> }
-
-
-
 
                 <Fab
                     active={this.state.active}
@@ -109,7 +104,6 @@ class SearchIndex extends Component {
                 </Fab>
 
             </Container>
-
         );
     }
 }
